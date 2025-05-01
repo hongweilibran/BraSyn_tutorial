@@ -1,5 +1,6 @@
 # BraSyn tutorial
-This is the tutorial built for beginner to quickly get hands on the [BraSyn Challenge](https://www.synapse.org/#!Synapse:syn53708249/wiki/627507). The goal of this challenge is to generate one missing modality for a given MRI sequence. As for the goal of this tutorial is to help you get started and get comfortable with the challenge. Our primary tool is a simple 3D Generative Adversarial Network (GAN) known as pix2pix, but you are encouraged to experiment with more advanced models like Diffusion Models in your research.
+This is the tutorial built for challenge participants to quickly get hands-on for the [BraSyn Challenge](https://www.synapse.org/Synapse:syn64153130/wiki/631457). The goal of this challenge is to generate one missing modality for the given three MRI sequences. As for the goal of this tutorial is to help you get started for the challenge. 
+Our baseline is a simple 3D Generative Adversarial Network (GAN) known as pix2pix. Of course, you are encouraged to explore and implement more advanced models like Diffusion Models.
 
 ## Dataset format 
 Once you've downloaded and extracted the dataset from Synapse, take some time to understand its structure. Your folders for training and validation should look like this after extraction:
