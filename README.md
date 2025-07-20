@@ -32,7 +32,7 @@ BraTS-GLI-01666-000
 
 Tools like [itk-snap](http://www.itksnap.org/pmwiki/pmwiki.php?n=Main.HomePage) are useful to view each modality and segmentation map provided. After you view the input images, you can find the dimension of the images are all $256 \times 256 \times 256$, which contains too much empty space and is too big to train on memory limited GPUs. Therefore, we need to crop the images in latter process.
 
-## The simple 3D baseline
+## A simple 3D baseline
 
 The baseline model simulates a scenario where a random modality is missing during training, enhancing the model's ability to handle missing modalities during inference.
 
@@ -120,36 +120,6 @@ We provide a pretrained nnUnet for you to do so. There are several steps you sho
 - Finally, you can use ```python cal_avg_dice.py``` to calculate the average Dice score, in order to evaluate your model on training dataset.
 </details>
 
-## Building MLCube
-
-The detailed document for building model MLCube can be found [here](https://docs.medperf.org/mlcubes/mlcube_models/).
-
-Please follow the [document here](https://docs.medperf.org/getting_started/installation/) to install Medperf.
-
-The files needed to build model MLCube are all included in this repo already.
-
-
- **All you need to do**:
- - Change the image name and author name in ```mlcube/mlcube.yaml```
- - Change the name in ```mlcube/workspace/parameters.yaml``` to match the **weight folder' name**
- - Move your trained weight folder to the ```mlcube/workspace/additional_files``` folder
- - Move the ```checkpoint``` folder out of the ```project``` folder. 
-
-After these steps, you can use:
-```
-mlcube configure -Pdocker.build_strategy=always
-```
-to build your MLCube on your machine. 
-
-**Note: the logic for testing MLCube using [MedPref](https://www.medperf.org) and testing your model using nnunet provided in this repo is different.** In this repo, we copy the other three modalities and the generated modality to a subfolder (with patient name), within the main folder ```pseudo_val_set``` for the nnunet to segment. However, while using [MedPref](https://www.medperf.org) for MLCube submission, you only save the generated modality to a folder **without subfolders**. 
-
-## Submitting MLCube
-Please follow the detailed [description available here](https://www.synapse.org/#!Synapse:syn53708249/wiki/627758) to submit your MLCube.
-
- **Note**: **Do not forget** to test the compatibility using [MedPref](https://www.medperf.org) before submission.
-
- ## Training the baseline
-The whole framework is built on [2D_VAE_UDA_for_3D_sythesis](https://github.com/WinstonHuTiger/2D_VAE_UDA_for_3D_sythesis) with a few tweaks from last year's BraSyn challenge. Compared with the original implementation, a new dataloader named ```brain_3D_random_mod_dataset.py``` is added to ```data``` folder. Input 3D volumes are manually cropped into sub-volumes with size $144 \times 192 \times 192$. For inference purpose, ```generate_missing_modality_options.py``` is added to ```option``` folder and some utility functions in ```generate_missing_modality.py``` are included to pad the output volumes for MLCube production. 
 
 
 If you are interested in training your own simple baseline model, you first have to start the visdom server on your machine by ```visdom``` and then you can modify the following command:
