@@ -6,31 +6,22 @@ The goal of **BraSyn challenge** is to generate one missing modality given three
 ## 📚 Resources from BraSyn-2024 at MICCAI'2024
 (1) [Method descriptions of all teams](https://drive.google.com/drive/folders/1gnAkSqiOJ2I0zkARj7heQLHO_AVDdzG-?usp=sharing). (2) [Presentation slides at MICCAI'2024](https://docs.google.com/presentation/d/1XyJT6I96lgN6qp6hyDIQyXYKr2NotuxQ/edit?usp=drive_link&ouid=109496030661252703481&rtpof=true&sd=true). 
 
+## General Setting
+
+The BraSyn-2025 dataset is based on the BraTS-GLI 2023 dataset, BraTS-Metastasis 2023, and BraTS-Meningioma. 
+
+It describes a retrospective collection of brain tumor mpMRI scans acquired from multiple institutions under standard clinical conditions but with different imaging protocols, resulting in a vastly heterogeneous image quality across different institutions. 
+
+During the validation and test stages, the segmentation mask corresponding to images is unavailable for each subject, and one of the four modalities will be randomly excluded (`dropout').
+
+The participants are required to synthesize **one arbitrary** missing modality.
+
+<img src="assets/BraSyn_2025.png" alt="The training, validation, and test setting of BraSyn" width="80%"/>
+
+![One example from last year's algorithm](assets/brain_synthesis-.gif)
 
 
-## Dataset format 
-Once you've downloaded and extracted the dataset from Synapse, take some time to understand its structure. Your folders for training and validation should look like this after extraction:
 
-```
-ASNR-MICCAI-BraTS2023-GLI-Challenge-TrainingData
-├── BraTS-GLI-00000-000
-├── BraTS-GLI-00002-000
-├── BraTS-GLI-00003-000
-├── BraTS-GLI-00005-000
-... 
-```
-
-For each folder, there are 4 modalities available and one segmentation map (ending with ```*seg.nii.gz```):
-```
-BraTS-GLI-01666-000
-├── BraTS-GLI-01666-000-seg.nii.gz
-├── BraTS-GLI-01666-000-t1c.nii.gz
-├── BraTS-GLI-01666-000-t1n.nii.gz
-├── BraTS-GLI-01666-000-t2f.nii.gz
-└── BraTS-GLI-01666-000-t2w.nii.gz
-```
-
-Tools like [itk-snap](http://www.itksnap.org/pmwiki/pmwiki.php?n=Main.HomePage) are useful to view each modality and segmentation map provided. After you view the input images, you can find the dimension of the images are all $256 \times 256 \times 256$, which contains too much empty space and is too big to train on memory limited GPUs. Therefore, we need to crop the images in latter process.
 
 ## A simple 3D baseline
 
@@ -136,11 +127,11 @@ python train.py \
      --paired --netG sit --netD n_layers --n_layers_D 1 \
      --batch_size 1 --gpu_ids 0 
 ```
-**Note**: the minimum GPU memory requirement is 24GB and the training time is about 28 hours on a single 4090 RTX GPU.
-After the training, you are able to view Structural Similarity (SSIM) Index and Peak Signal-to-Noise Ratio (PSNR)  metric in the output. SSIM indicates the structural similarity, such as tissue similarity in our case here. As for the segmentation (Dice) score, we have discussed it in [inference](#inference). You are also welcome to include other metrics in your own research. 
+**Note**: The minimum GPU memory requirement is 24GB, and the training time is about 28 hours on a single 4090 RTX GPU.
+After the training, you are able to view the Structural Similarity (SSIM) Index and Peak Signal-to-Noise Ratio (PSNR)  metric in the output. SSIM indicates the structural similarity, such as tissue similarity in our case here. As for the segmentation (Dice) score, we have discussed it in [inference](#inference). You are also welcome to include other metrics in your own research. 
 
  ## Citation
- Please cite our work, if you find this tutorial is somehow useful.
+ Please cite our work if you find this tutorial useful.
 ```
 @misc{li2023brain,
       title={The Brain Tumor Segmentation (BraTS) Challenge 2023: Brain MR Image Synthesis for Tumor Segmentation (BraSyn)}, 
@@ -156,6 +147,8 @@ After the training, you are able to view Structural Similarity (SSIM) Index and 
   publisher = {arXiv},
   year = {2022},
 }
+
+
 
 ```
 
