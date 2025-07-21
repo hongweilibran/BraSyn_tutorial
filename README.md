@@ -49,6 +49,15 @@ So your container is expected to generate the missing modalities and store them 
     BraTS-MET-00777-000-t2w.nii.gz
 ```
 
+
+## How to generate tumor segmentation masks from four MRI modalities (three real + 1 synthetic one)
+Once the missing modality is generated, we can do image segmentation with the four modalities using well-established algorithms (pre-trained models). 
+One option is using previous BraTS best segmentation algorithms available here: https://github.com/BrainLesion/BraTS. 
+To do this, you would need to install it via: 
+```
+pip install brats
+```
+
 ## A simple 3D baseline
 
 The baseline model simulates a scenario where a random modality is missing during training, enhancing the model's ability to handle missing modalities during inference.
