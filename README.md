@@ -41,7 +41,14 @@ This year, we have switched to using Docker containers as the submission format.
         BraTS-MET-00777-000-t2f.nii.gz
 ```
 
-So your container is expected to generate the missing modalities and store them in one single main folder (**without sub-folders, please**). Here is [an example of the expected output given the previous pseudo test set](https://drive.google.com/file/d/1ZbQgUkS2K6NXvZaF45nJKySDhFaR50yI/view?usp=sharing)
+So your container is expected to generate the missing modalities and store them in one single main folder (**without sub-folders, please**). Here is [an example of the expected output](https://drive.google.com/file/d/1ZbQgUkS2K6NXvZaF45nJKySDhFaR50yI/view?usp=sharing) given the previous pseudo test set.
+
+/output_folder_example/
+└── BraTS-GLI-01667-000-t1c.nii.gz
+    BraTS-MEN-01346-000-t1n.nii.gz
+    BraTS-MET-00777-000-t2w.nii.gz
+```
+
 
 ## A simple 3D baseline
 
