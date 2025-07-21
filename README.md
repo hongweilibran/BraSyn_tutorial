@@ -21,7 +21,7 @@ The participants are required to synthesize **one arbitrary** missing modality.
 ![One example from last year's algorithm](assets/brain_synthesis-.gif)
 
 
-## Expected input and output
+## Expected input and output folder structures
 This year, we have switched to using Docker containers as the submission format. The submitted container is expected to take an input folder containing all test subjects. In each subject's subfolder, one modality (FLAIR, T1, T2, or T1-c) is randomly dropped. Here is [an example of a pseudo test set](https://drive.google.com/file/d/1rEjYU5I790kBZahcJZyyPzkJyiKpEh1D/view?usp=sharing).
 ```
 /input_folder_example/
@@ -42,13 +42,12 @@ This year, we have switched to using Docker containers as the submission format.
 ```
 
 So your container is expected to generate the missing modalities and store them in one single main folder (**without sub-folders, please**). Here is [an example of the expected output](https://drive.google.com/file/d/1ZbQgUkS2K6NXvZaF45nJKySDhFaR50yI/view?usp=sharing) given the previous pseudo test set.
-
+```
 /output_folder_example/
 └── BraTS-GLI-01667-000-t1c.nii.gz
     BraTS-MEN-01346-000-t1n.nii.gz
     BraTS-MET-00777-000-t2w.nii.gz
 ```
-
 
 ## A simple 3D baseline
 
