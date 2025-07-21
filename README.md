@@ -50,7 +50,7 @@ So your container is expected to generate the missing modalities and store them 
 ```
 
 
-## How to generate tumor segmentation masks from four MRI modalities (three real + 1 synthetic one)
+## How to generate tumor segmentation masks from four MRI modalities (three real + one synthetic images)?
 Once the missing modality is generated, we can do image segmentation with the four modalities using well-established algorithms (pre-trained models). 
 One option is using previous BraTS best segmentation algorithms (with GPUs) available here: https://github.com/BrainLesion/BraTS. 
 To do this, you would need to install it via: 
@@ -62,6 +62,24 @@ Then you could run the provided _segmentation.py_ on one folder containing the s
 python segmentation.py -i /your/input/folder/path -o /your/output/folder/path --gpu 0
 ```
 Here is [one example for testing](https://drive.google.com/file/d/1_75QK4-H_bRICgFb7ODeEDB4OQCV25xY/view?usp=sharing). After running the script on this folder, you will expect to get the [segmentations](https://drive.google.com/file/d/1kHoxAPp9ey83n5qCeeEhO-tI7yoauiTt/view?usp=sharing). 
+
+### Hwo to compute metrics?
+
+After segmentation, one could compute metrics (Dice + Hausdorff distance 95 percentile) by comparing the output with reference labels. 
+We provide the script named _get_segmentation_metric.py_ to do this. Please install supporting packages via: 
+```
+pip install numpy nibabel pandas medpy
+```
+Then you could run the script providing two folders - one with output segmentations ([example](https://drive.google.com/file/d/1kHoxAPp9ey83n5qCeeEhO-tI7yoauiTt/view?usp=sharing)), the other one with ground truth ([example](https://drive.google.com/file/d/1zOfzNUaDxmSR1NImCV9GV-IQ7E4k9Ynm/view?usp=sharing)). 
+After running the script on the example data, one will see the following output with csv format: 
+```
+Subject,Dice_label1,HD95_label1,Dice_label2,HD95_label2,Dice_label3,HD95_label3
+BraTS-GLI-01667-000-seg.nii.gz,0.9156,1.4142,0.9758,1.0,0.9787,1.0
+BraTS-MEN-01346-000-seg.nii.gz,0.7051,3.8669,0.9963,0.0,0.9956,0.0
+BraTS-MET-00777-000-seg.nii.gz,0.9922,0.0,0.9992,0.0,0.9958,0.0
+
+```
+
 
 ## A simple 3D baseline
 
