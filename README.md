@@ -52,11 +52,16 @@ So your container is expected to generate the missing modalities and store them 
 
 ## How to generate tumor segmentation masks from four MRI modalities (three real + 1 synthetic one)
 Once the missing modality is generated, we can do image segmentation with the four modalities using well-established algorithms (pre-trained models). 
-One option is using previous BraTS best segmentation algorithms available here: https://github.com/BrainLesion/BraTS. 
+One option is using previous BraTS best segmentation algorithms (with GPUs) available here: https://github.com/BrainLesion/BraTS. 
 To do this, you would need to install it via: 
 ```
 pip install brats
 ```
+Then you could run the provided _segmentation.py_ on one folder containing the subjects: 
+```
+python segmentation.py -i /your/input/folder/path -o /your/output/folder/path --gpu 0
+```
+Here is [one example for testing](https://drive.google.com/file/d/1_75QK4-H_bRICgFb7ODeEDB4OQCV25xY/view?usp=sharing). After running the script on this folder, you will expect to get the [segmentations](https://drive.google.com/file/d/1kHoxAPp9ey83n5qCeeEhO-tI7yoauiTt/view?usp=sharing). 
 
 ## A simple 3D baseline
 
