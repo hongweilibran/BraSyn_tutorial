@@ -53,7 +53,7 @@ So your container is expected to generate the missing modalities and store them 
 ## How to generate tumor segmentation masks from four MRI modalities (three real + one synthetic images)?
 Once the missing modality is generated, we can do image segmentation with the four modalities using well-established algorithms (pre-trained models). 
 One option is using previous BraTS best segmentation algorithms (with GPUs) available here: https://github.com/BrainLesion/BraTS. 
-To do this, you would need to install it via: 
+To do this, you would need to [install Docker](https://docs.docker.com/engine/install/) and the _brats_ package via: 
 ```
 pip install brats
 ```
@@ -137,38 +137,6 @@ To infer on your own machine, you have to do the following things:
 - If you don't want to save the generated modality back to the data_path, change ```save_back``` in ```infer()``` function to ```False```
 - Change the ```output_path``` in ```project/generate_missing_modality.py```, if you did the last step. 
 - Run ```python project/generate_missing_modality.py``` to generate the missing modality.
-**Note**: a **pre-trained** 3D GAN is given in ```mlcube/workspace/additional_files/weights/your_weight_name``` and parameter file is also included, ```mlcube/workspace/parameters.yaml```
-
-After the inference, you need to obtain a Dice coefficient in order to evaluate your model further. 
-
-**The most simple way** to do so is by using a nnUnet docker provided by us:
-```
-docker pull winstonhutiger/brasyn_nnunet:latest
-```
-Then you can just run the docker to obtain the Dice coefficient by using:
-```
-bash run_brasyn_nnunet_docker.sh
-```
-Alternatively, you can run the ensemble version to get more robust results:
-```
-docker pull winstonhutiger/brasyn_nnunet:ensemble
-bash run_brasyn_nnunet_ensemble_docker.sh
-```
-**Note**: To run this docker, you have to [install Docker](https://docs.docker.com/engine/install/) on your own machine. Please pay attention to ```$PWD/pseudo_val_set``` in both ```bash``` scripts, which is the path where you store your generated modality and other **three true modalities**. Moreover, if you want to use post-processing in nnUnet ensemble docker, please add the ```--post``` flag after ```predict.sh```, changing the last line into  ```/bin/bash -c "bash predict.sh --post"```
-
-<details>
-
-<summary>Alternatively, you can also manually obtain the Dice score without docker.</summary> 
-We provide a pretrained nnUnet for you to do so. There are several steps you should follow:
-
-- Install nnUnetV2 on your machine, you can just use ```pip install nnunetv2``` to do so.
-- Set the environment variable according to [the instruction here](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/set_environment_variables.md).
-- Download the [pre-trained weight](https://drive.google.com/drive/folders/1dAKiXBpSQEthPZqELZ7snP2s9FIREBJk?usp=sharing) and put the unzipped folder to where you set ```nnUNet_results``` variable.
-- Please use ```Dataset137_BraTS21.py``` to convert the generated missing modality and existing modality to nnunet's format (You have to change the path, ```brats_data_dir```, to where you store your MRI sequences).
-- Run nnunetv2 by ```nnUNetv2_predict -i "./Dataset137_BraTS2021_test/imagesTr" -o "./outputs"  -d 137 -c 3d_fullres -f 5``` to obtain the predicted segmentation maps.
-- Finally, you can use ```python cal_avg_dice.py``` to calculate the average Dice score, in order to evaluate your model on training dataset.
-</details>
-
 
 
 If you are interested in training your own simple baseline model, you first have to start the visdom server on your machine by ```visdom``` and then you can modify the following command:
